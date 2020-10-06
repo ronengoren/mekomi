@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
-
+import HomeStackScreen from './src/routes/appRouter';
 import {
   Header,
   LearnMoreLinks,
@@ -25,7 +25,7 @@ const App = () => {
   return (
     <Fragment>
       {Platform.OS === 'ios' && <StatusBar barStyle="dark-content" />}
-      <Text style={styles.sectionTitle}>Step One</Text>
+      <HomeStackScreen />
     </Fragment>
   );
 };
