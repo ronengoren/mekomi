@@ -20,7 +20,7 @@ class Product extends Component {
               style={style.button}
               onPress={() => this.pressed()}>
               <Image
-                source={{uri: this.props.product.image}}
+                source={{uri: this.props.product.MainImage.url_fullxfull}}
                 style={style.image}
               />
               <View style={style.border} />
@@ -43,7 +43,7 @@ class Product extends Component {
                 </Text>
                 <View style={{flex: 1, width: '100%', alignItems: 'center'}}>
                   <View style={style.line} />
-                  <Text style={style.price}>{this.props.product.price}</Text>
+                  <Text style={style.price}>${this.props.product.price}</Text>
                   <View style={style.line} />
                 </View>
               </Body>

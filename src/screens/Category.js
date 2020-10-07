@@ -21,17 +21,107 @@ import {
   StackActions,
   DrawerActions,
 } from '@react-navigation/native';
+import axios from 'axios';
 
+const apiKey = 'cp66loboji5xzfdt54z1c4ux';
+const apiUrl =
+  'https://openapi.etsy.com/v2/shops/21891901/listings/active/?api_key=';
+const filterApi =
+  '&fields=title,url,price,currency_code,description,tags&limit=100&includes=MainImage';
 class Category extends Component {
   constructor(props) {
     super(props);
     this.state = {
       items: [],
       data: [],
+      etsyApiData: [],
     };
   }
 
+  componentDidMount = () => {
+    this.fetchApi();
+  };
+
+  fetchApi() {
+    var thisthis = this;
+
+    axios
+      .get(apiUrl + apiKey + filterApi)
+      .then(function (response) {
+        thisthis.setState({etsyApiData: response.data.results});
+        // thisthis.apiCall(response);
+        // handle success
+
+        // console.log(thisthis.state.etsyApiData);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
+
   UNSAFE_componentWillMount() {
+    var productsjson = [
+      {
+        MainImage: {
+          blue: null,
+          brightness: null,
+          creation_tsz: null,
+          full_height: null,
+          full_width: null,
+          green: null,
+          hex_code: null,
+          hue: null,
+          is_black_and_white: null,
+          listing_id: 804130566,
+          listing_image_id: 2388252951,
+          rank: null,
+          red: null,
+          saturation: null,
+          url_170x135:
+            'https://i.etsystatic.com/21891901/d/il/c950fe/2388252951/il_170x135.2388252951_6cqu.jpg?version=0',
+          url_570xN:
+            'https://i.etsystatic.com/21891901/r/il/c950fe/2388252951/il_570xN.2388252951_6cqu.jpg',
+          url_75x75:
+            'https://i.etsystatic.com/21891901/d/il/c950fe/2388252951/il_75x75.2388252951_6cqu.jpg?version=0',
+          url_fullxfull:
+            'https://i.etsystatic.com/21891901/r/il/c950fe/2388252951/il_fullxfull.2388252951_6cqu.jpg',
+        },
+        currency_code: 'USD',
+        description: 'Jerusalem skyline - hand-drawn digital print',
+        is_vintage: false,
+        price: '85.00',
+        sku: [
+          '5ED52F9CAA6AA_10751',
+          '5ED52F9CAA6AA_10749',
+          '5ED52F9CAA6AA_10750',
+          '5ED52F9CAA6AA_1350',
+          '5ED52F9CAA6AA_3',
+          '5ED52F9CAA6AA_4',
+        ],
+        tags: [
+          'Jerusalem skyline',
+          'digital hand drawn',
+          'design art',
+          'urban storyline',
+          'world cities',
+          'Israel geography',
+          'Illustration',
+          'mekomi',
+          'unique',
+          'digital print',
+          'museum quality',
+          'paper poster',
+          'Minimalist',
+        ],
+        title: 'Jerusalem skyline - Framed poster',
+        url:
+          'https://www.etsy.com/listing/804130566/jerusalem-skyline-framed-poster?utm_source=mekomi&utm_medium=api&utm_campaign=api',
+      },
+    ];
     var products = [
       {
         id: 1,
@@ -155,7 +245,7 @@ class Category extends Component {
       return item.categoryTitle == category;
     });
 
-    console.log(data);
+    // console.log(data);
 
     this.setState({items: data});
     this.setState({data: products});
@@ -207,7 +297,9 @@ class Category extends Component {
 
   renderProducts() {
     let items = [];
-    let stateItems = this.state.items;
+    // let stateItems = this.state.items;
+    let stateItems = this.state.etsyApiData;
+    // console.log(apiProducts);
 
     for (var i = 0; i < stateItems.length; i++) {
       if (stateItems[i]) {
