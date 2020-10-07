@@ -39,17 +39,21 @@ class Product extends Component {
 
   UNSAFE_componentWillMount() {
     //get the product with id of this.props.product.id from your server
-    this.setState({product: dummyProduct});
+    // this.setState({product: dummyProduct});
   }
 
   componentDidMount() {
+    console.log('this.props');
+
+    console.log(this.props.route.params.product);
+    console.log('this.props');
     /* Select the default color and size (first ones) */
-    let defColor = this.state.product.colors[0];
-    let defSize = this.state.product.sizes[0];
-    this.setState({
-      selectedColor: defColor,
-      selectedSize: defSize,
-    });
+    // let defColor = this.state.product.colors[0];
+    // let defSize = this.state.product.sizes[0];
+    // this.setState({
+    //   selectedColor: defColor,
+    //   selectedSize: defSize,
+    // });
   }
 
   render() {
@@ -58,7 +62,7 @@ class Product extends Component {
     // console.log(route.params.product.title);
     var left = (
       <Left style={{flex: 1}}>
-        <Button onPress={() => this.props.navigation.pop()} transparent>
+        <Button onPress={() => this.props.navigation.pop()} dark transparent>
           <Icon name="ios-arrow-back" />
         </Button>
       </Left>
@@ -67,11 +71,13 @@ class Product extends Component {
       <Right style={{flex: 1}}>
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
+          dark
           transparent>
           <Icon name="ios-search" />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('Cart')}
+          dark
           transparent>
           <Icon name="ios-cart" />
         </Button>
@@ -81,7 +87,7 @@ class Product extends Component {
       <Container style={{backgroundColor: '#fdfdfd'}}>
         <Navbar left={left} right={right} title={route.params.product.title} />
         <Content>
-          <Carousel
+          {/* <Carousel
             data={this.state.product.images}
             renderItem={this._renderItem}
             ref={(carousel) => {
@@ -110,7 +116,7 @@ class Product extends Component {
             }}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
-          />
+          /> */}
           <View
             style={{
               backgroundColor: '#fdfdfd',
@@ -145,7 +151,7 @@ class Product extends Component {
                   onValueChange={(color) =>
                     this.setState({selectedColor: color})
                   }>
-                  {this.renderColors()}
+                  {/* {this.renderColors()} */}
                 </Picker>
               </Col>
             </Grid>
@@ -162,7 +168,7 @@ class Product extends Component {
                   note={true}
                   selectedValue={this.state.selectedSize}
                   onValueChange={(size) => this.setState({selectedSize: size})}>
-                  {this.renderSize()}
+                  {/* {this.renderSize()} */}
                 </Picker>
               </Col>
             </Grid>
@@ -271,7 +277,7 @@ class Product extends Component {
                 marginBottom: 10,
               }}
             />
-            {this.renderSimilairs()}
+            {/* {this.renderSimilairs()} */}
           </View>
         </Content>
       </Container>
@@ -292,19 +298,19 @@ class Product extends Component {
   };
 
   renderColors() {
-    let colors = [];
-    this.state.product.colors.map((color, i) => {
-      colors.push(<Item key={i} label={color} value={color} />);
-    });
-    return colors;
+    // let colors = [];
+    // this.state.product.colors.map((color, i) => {
+    //   colors.push(<Item key={i} label={color} value={color} />);
+    // });
+    // return colors;
   }
 
   renderSize() {
-    let size = [];
-    this.state.product.sizes.map((s, i) => {
-      size.push(<Item key={i} label={s} value={s} />);
-    });
-    return size;
+    // let size = [];
+    // this.state.product.sizes.map((s, i) => {
+    //   size.push(<Item key={i} label={s} value={s} />);
+    // });
+    // return size;
   }
 
   renderSimilairs() {

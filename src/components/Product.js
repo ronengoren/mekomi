@@ -56,6 +56,7 @@ class Product extends Component {
 
   pressed() {
     const {navigation} = this.props;
+
     this.props.navigation.navigate('Product', {
       product: this.props.product,
     });
