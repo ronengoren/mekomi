@@ -35,7 +35,7 @@ class Login extends Component {
     var left = (
       <Left style={{flex: 1}}>
         <Button onPress={() => this.props.navigation.pop()} transparent>
-          <Icon name="ios-arrow-back" />
+          <Icon name="ios-arrow-back" style={{color: 'white'}} />
         </Button>
       </Left>
     );
@@ -44,12 +44,12 @@ class Login extends Component {
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
           transparent>
-          <Icon name="ios-star-outline" />
+          <Icon name="ios-star-outline" style={{color: 'white'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
           transparent>
-          <Icon name="ios-heart-outline" />
+          <Icon name="ios-heart-outline" style={{color: 'white'}} />
         </Button>
       </Right>
     );

@@ -51,11 +51,8 @@ class Checkout extends Component {
 
   UNSAFE_componentWillMount() {
     const {route} = this.props;
-    // console.log(this.props.route.params.cartItems);
-    // console.log('this.props.route.params.cartItems');
 
     this.setState({cartItems: this.props.route.params.cartItems});
-    // console.log(this.state.cartItems);
 
     this.props.route.params.cartItems.map((item) => {
       var total = 0;
@@ -79,7 +76,6 @@ class Checkout extends Component {
       <Right style={{flex: 1}}>
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
-          dark
           transparent>
           <Icon name="ios-search-outline" />
         </Button>
@@ -296,7 +292,6 @@ class Checkout extends Component {
   }
 
   checkout() {
-    console.log(this.state);
     alert('Check the log');
   }
 }

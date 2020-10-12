@@ -24,90 +24,13 @@ import {
 import SideMenuSecondLevel from './SideMenuSecondLevel';
 import * as RootNavigation from '../routes/appRouter';
 import {WebView} from 'react-native-webview';
+import axios from 'axios';
+import {ETSY_API_KEY} from '@env';
+import Product from './Product';
 
-var menuItems = [
-  {
-    id: 1,
-    title: 'PRINTS',
-    subMenu: [
-      {
-        id: 5,
-        title: 'NEW IN',
-      },
-      {
-        id: 6,
-        title: 'JACKETS',
-      },
-      {
-        id: 7,
-        title: 'BLAZERS',
-      },
-      {
-        id: 8,
-        title: 'TROUSERS',
-      },
-      {
-        id: 9,
-        title: 'JEANS',
-      },
-      {
-        id: 10,
-        title: 'SHORTS',
-      },
-      {
-        id: 11,
-        title: 'SHOES',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'CLOTHING',
-    subMenu: [
-      {
-        id: 12,
-        title: 'NEW IN',
-      },
-      {
-        id: 13,
-        title: 'JACKETS',
-      },
-      {
-        id: 14,
-        title: 'BLAZERS',
-      },
-      {
-        id: 15,
-        title: 'TROUSERS',
-      },
-      {
-        id: 16,
-        title: 'JEANS',
-      },
-      {
-        id: 17,
-        title: 'SHORTS',
-      },
-      {
-        id: 18,
-        title: 'SHOES',
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: 'BAGS',
-  },
-  {
-    id: 4,
-    title: 'ACCESORIES',
-  },
-  {
-    id: 5,
-    title: 'HOME',
-  },
-];
-
+const apiUrl = 'https://openapi.etsy.com/v2/shops/21891901/sections/?api_key=';
+const filterApi =
+  '&includes=Listings:active/Images&fields=shop_section_id,title,active_listing_count&limit=100';
 const menusSecondaryItems = [
   {
     id: 190,
@@ -158,17 +81,46 @@ class MenuSide extends Component {
       subMenu: false,
       subMenuItems: [],
       clickedItem: '',
+      sectionData: [],
     };
     UIManager.setLayoutAnimationEnabledExperimental &&
       UIManager.setLayoutAnimationEnabledExperimental(true);
   }
+
+  componentDidMount() {
+    this._isMounted = true;
+
+    this.fetchApi();
+  }
+
+  UNNSAFE_componentWillUnmount() {
+    this._isMounted = false;
+  }
+  fetchApi() {
+    var thisthis = this;
+
+    axios
+      .get(apiUrl + ETSY_API_KEY + filterApi)
+      .then(function (response) {
+        thisthis.setState({sectionData: response.data.results});
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
+
   render() {
+    const {navigation} = this.props;
+
     return (
       <ScrollView style={styles.container}>{this.renderMenu()}</ScrollView>
     );
   }
   renderMenu() {
-    const {navigation} = this.props;
     if (!this.state.subMenu) {
       return (
         <View>
@@ -214,9 +166,9 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="logo-facebook"
                   onPress={() =>
-                    Linking.openURL(
-                      'https://www.facebook.com/MekomiUS',
-                    ).catch((err) => console.error('An error occurred', err))
+                    this.props.navigation.navigate('WebView', {
+                      url: 'https://www.facebook.com/MekomiUS',
+                    })
                   }
                 />
               </Col>
@@ -225,9 +177,9 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="logo-instagram"
                   onPress={() =>
-                    Linking.openURL(
-                      'https://www.instagram.com/mekomi_urbanstoryline/',
-                    ).catch((err) => console.error('An error occurred', err))
+                    this.props.navigation.navigate('WebView', {
+                      url: 'https://www.instagram.com/mekomi_urbanstoryline/',
+                    })
                   }
                 />
               </Col>
@@ -236,9 +188,9 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="ios-globe"
                   onPress={() =>
-                    Linking.openURL(
-                      'https://www.guymizrachy.com',
-                    ).catch((err) => console.error('An error occurred', err))
+                    this.props.navigation.navigate('WebView', {
+                      url: 'https://www.guymizrachy.com',
+                    })
                   }
                 />
               </Col>
@@ -247,9 +199,10 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="ios-musical-notes"
                   onPress={() =>
-                    Linking.openURL(
-                      'https://open.spotify.com/user/12165756219?si=3L-MVePtSTq5E4ztj45KZQ',
-                    ).catch((err) => console.error('An error occurred', err))
+                    this.props.navigation.navigate('WebView', {
+                      url:
+                        'https://open.spotify.com/user/12165756219?si=3L-MVePtSTq5E4ztj45KZQ',
+                    })
                   }
                 />
               </Col>
@@ -258,9 +211,9 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="md-logo-pinterest"
                   onPress={() =>
-                    Linking.openURL(
-                      'https://www.pinterest.com/guymiz/_saved/',
-                    ).catch((err) => console.error('An error occurred', err))
+                    this.props.navigation.navigate('WebView', {
+                      url: 'https://www.pinterest.com/guymiz/_saved/',
+                    })
                   }
                 />
               </Col>
@@ -280,52 +233,40 @@ class MenuSide extends Component {
     }
   }
   renderMenuItems() {
+    const {navigation} = this.props;
+    const mainDrawer = this.state.sectionData;
     let items = [];
-    menuItems.map((item, i) => {
+
+    for (let i = 0; i < mainDrawer.length; i++) {
       items.push(
         <ListItem
-          last={menuItems.length === i + 1}
+          last={mainDrawer.length === i + 1}
           icon
-          key={item.id}
+          key={mainDrawer[i].shop_section_id}
           button={true}
-          onPress={() => this.itemClicked(item)}>
+          onPress={() => this.itemClicked(mainDrawer[i])}>
           <Body>
-            <Text>{item.title}</Text>
+            <Text>{mainDrawer[i].title}</Text>
           </Body>
           <Right>
             <Icon name="ios-arrow-forward" />
           </Right>
         </ListItem>,
       );
-    });
+    }
+
     return items;
   }
   itemClicked(item) {
     const {navigation} = this.props;
 
-    if (!item.subMenu || item.subMenu.length <= 0) {
-      this.props.navigation.navigate('Category', {
-        id: item.id,
-        title: item.title,
-      });
+    var tagSection = [];
 
-      return;
-    }
-    var animationConfig = {
-      duration: 150,
-      create: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-        property: LayoutAnimation.Properties.scaleXY,
-      },
-      update: {
-        type: LayoutAnimation.Types.easeInEaseOut,
-      },
-    };
-    LayoutAnimation.configureNext(animationConfig);
-    this.setState({
-      subMenu: true,
-      subMenuItems: item.subMenu,
-      clickedItem: item.title,
+    let stateItems = this.state.sectionData;
+
+    this.props.navigation.navigate('TagsCategory', {
+      title: item.title,
+      product: item,
     });
   }
   back() {

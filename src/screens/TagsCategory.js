@@ -27,8 +27,8 @@ import {ETSY_API_KEY} from '@env';
 const apiUrl =
   'https://openapi.etsy.com/v2/shops/21891901/listings/active/?api_key=';
 const filterApi =
-  '&fields=listing_id,tags,price,title,description&limit=100&includes=Images,Section';
-class Category extends Component {
+  '&fields=listing_id,tags,price,title,description&limit=100&includes=MainImage,Images,Section';
+class TagsCategory extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -38,29 +38,9 @@ class Category extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this.fetchApi();
-  };
-
-  fetchApi() {
-    var thisthis = this;
-
-    axios
-      .get(apiUrl + ETSY_API_KEY + filterApi)
-      .then(function (response) {
-        thisthis.setState({etsyApiData: response.data.results});
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      })
-      .then(function () {
-        // always executed
-      });
-  }
-
   render() {
     const {navigation} = this.props;
+
     var left = (
       <Left style={{flex: 1}}>
         <Button
@@ -101,18 +81,17 @@ class Category extends Component {
 
   renderProducts() {
     let items = [];
-    // let stateItems = this.state.items;
-    let category = this.props.route.params.title.toLocaleLowerCase();
-    let stateItems = this.state.etsyApiData;
-    for (var i = 0; i < stateItems.length; i++) {
-      if (stateItems[i].tags.includes(category)) {
-        items.push(
-          <Grid key={i}>
-            <Product key={stateItems[i].listing_id} product={stateItems[i]} />
-            {/* <Product key={stateItems[i].id} product={stateItems[i]} isRight /> */}
-          </Grid>,
-        );
-      }
+    let tagParams = this.props.route.params.product;
+    let productCount = tagParams.active_listing_count;
+    for (var i = 0; i < productCount; i++) {
+      items.push(
+        <Grid key={i}>
+          <Product
+            key={tagParams.Listings[i].listing_id}
+            product={tagParams.Listings[i]}
+          />
+        </Grid>,
+      );
     }
 
     return items;
@@ -122,5 +101,5 @@ class Category extends Component {
 export default function (props) {
   const navigation = useNavigation();
 
-  return <Category {...props} navigation={navigation} />;
+  return <TagsCategory {...props} navigation={navigation} />;
 }

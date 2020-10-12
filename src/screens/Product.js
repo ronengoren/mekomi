@@ -60,8 +60,6 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    // console.log(this.props.route.params.product);
-
     var images = this.props.route.params.product.Images;
 
     let data = [];
@@ -70,60 +68,58 @@ class Product extends Component {
       this.setState({
         carouselImages: data,
       });
-      // console.log(data);
     }
-    console.log('this.props');
   }
 
-  renderColors() {
-    this;
-    let colors = [];
-    let products = this.state.product;
-    // console.log(this.props.route.params.product);
-    axios
-      .get(
-        'https://openapi.etsy.com/v2/listings/' +
-          this.props.route.params.product.listing_id +
-          '/inventory?api_key=' +
-          ETSY_API_KEY +
-          '&includes=Attributes&fields=values,title,url,price,currency_code,description,tags,has_variations',
-      )
-      .then(function (response) {
-        // this.setState({inventory: response.data.results});
-        response.data.results.products.map((tierOne, i) => {
-          // console.log(tierOne);
-          // console.log(JSON.stringify(tierOne.product_id));
+  // renderColors() {
+  //   this;
+  //   let colors = [];
+  //   let products = this.state.product;
+  //   // console.log(this.props.route.params.product);
+  //   axios
+  //     .get(
+  //       'https://openapi.etsy.com/v2/listings/' +
+  //         this.props.route.params.product.listing_id +
+  //         '/inventory?api_key=' +
+  //         ETSY_API_KEY +
+  //         '&includes=Attributes&fields=values,title,url,price,currency_code,description,tags,has_variations',
+  //     )
+  //     .then(function (response) {
+  //       // this.setState({inventory: response.data.results});
+  //       response.data.results.products.map((tierOne, i) => {
+  //         // console.log(tierOne);
+  //         // console.log(JSON.stringify(tierOne.product_id));
 
-          colors.push(<Picker label={tierOne.product_id} value={i} />);
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-      .then(function () {});
-    // products.products.map((y) => {
-    //   console.log(y);
-    // });
-    // this.state.product.products.map((tierOne) => {
-    //   // console.log('product_id: ' + tierOne.product_id);
-    //   // colors.concat(tierOne.product_id);
-    //   tierOne.property_values.map((tierTwo, i) => {
-    //     colors.push(tierTwo.values[0]);
-    //     this.setState({colorOption: colors});
-    //     // <Picker.Item label="Wallet" value="key0" />;
-    //     // console.log(tierTwo.property_name, tierTwo.values);
-    //     // colors.push(
-    //     //   <Picker.Item
-    //     //     key={i}
-    //     //     label={tierTwo.property_name}
-    //     //     value={tierTwo.property_name}
-    //     //   />,
-    //     // );
-    console.log(colors);
-    //   });
-    // });
-    return colors;
-  }
+  //         colors.push(<Picker label={tierOne.product_id} value={i} />);
+  //       });
+  //     })
+  //     .catch(function (error) {
+  //       console.log(error);
+  //     })
+  //     .then(function () {});
+  //   // products.products.map((y) => {
+  //   //   console.log(y);
+  //   // });
+  //   // this.state.product.products.map((tierOne) => {
+  //   //   // console.log('product_id: ' + tierOne.product_id);
+  //   //   // colors.concat(tierOne.product_id);
+  //   //   tierOne.property_values.map((tierTwo, i) => {
+  //   //     colors.push(tierTwo.values[0]);
+  //   //     this.setState({colorOption: colors});
+  //   //     // <Picker.Item label="Wallet" value="key0" />;
+  //   //     // console.log(tierTwo.property_name, tierTwo.values);
+  //   //     // colors.push(
+  //   //     //   <Picker.Item
+  //   //     //     key={i}
+  //   //     //     label={tierTwo.property_name}
+  //   //     //     value={tierTwo.property_name}
+  //   //     //   />,
+  //   //     // );
+  //   console.log(colors);
+  //   //   });
+  //   // });
+  //   return colors;
+  // }
   render() {
     const {navigation} = this.props;
     const {route} = this.props;
@@ -131,7 +127,7 @@ class Product extends Component {
     var left = (
       <Left style={{flex: 1}}>
         <Button onPress={() => this.props.navigation.pop()} dark transparent>
-          <Icon name="ios-arrow-back" />
+          <Icon name="ios-arrow-back" style={{color: 'white'}} />
         </Button>
       </Left>
     );
@@ -139,15 +135,13 @@ class Product extends Component {
       <Right style={{flex: 1}}>
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
-          dark
           transparent>
-          <Icon name="ios-star-outline" />
+          <Icon name="ios-star-outline" style={{color: 'white'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
-          dark
           transparent>
-          <Icon name="ios-heart-outline" />
+          <Icon name="ios-heart-outline" style={{color: 'white'}} />
         </Button>
       </Right>
     );

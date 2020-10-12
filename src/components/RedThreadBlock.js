@@ -14,7 +14,6 @@ class RedThreadBlock extends Component {
         <TouchableOpacity
           onPress={() => {
             /* 1. Navigate to the Details route with params */
-            // console.log(this.props.title);
             this.props.navigation.navigate('WebView', {
               url: 'https://www.guymizrachy.com/shop',
             });

@@ -86,13 +86,8 @@ class Home extends Component {
 
     var left = (
       <Left style={{flex: 1}}>
-        <Button
-          onPress={() =>
-            this.props.navigation.dispatch(DrawerActions.openDrawer(this))
-          }
-          dark
-          transparent>
-          <Icon name="ios-menu-outline" iconStyle={{color: 'black'}} />
+        <Button onPress={() => this.props.navigation.openDrawer()} transparent>
+          <Icon name="ios-menu-outline" style={{color: 'white'}} />
         </Button>
       </Left>
     );
@@ -100,15 +95,13 @@ class Home extends Component {
       <Right style={{flex: 1}}>
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
-          dark
           transparent>
-          <Icon name="ios-star-outline" />
+          <Icon name="ios-star-outline" style={{color: 'white'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
-          dark
           transparent>
-          <Icon name="ios-heart-outline" />
+          <Icon name="ios-heart-outline" style={{color: 'white'}} />
         </Button>
       </Right>
     );
@@ -132,19 +125,8 @@ class Home extends Component {
   renderCategories() {
     var products = this.state.results;
     this.state.results = this;
-    // console.log(this);
     var categ = [];
-    // console.log(products);
-    // products.map((item) => console.log(item));
-    //     let unique = [];
-    //     cat.forEach((element) => {
-    //       if (!unique.includes(element)) {
-    //         unique.push(element);
-    //       }
-    //       return unique;
-    //     });
-    //     result.filter((item) => console.log(item.taxonomy_id));
-    // console.log(categ);
+
     const categories = [
       {
         id: 1,

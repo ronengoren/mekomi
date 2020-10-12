@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 class Product extends Component {
   render() {
     const {navigation} = this.props;
-    // console.log(this);
+    const mainImage = this.props.product.Images[0].url_fullxfull;
     return (
       <Col style={this.props.isRight ? style.leftMargin : style.rightMargin}>
         <Card transparent>
@@ -19,10 +19,7 @@ class Product extends Component {
               transparent
               style={style.button}
               onPress={() => this.pressed()}>
-              <Image
-                source={{uri: this.props.product.MainImage.url_fullxfull}}
-                style={style.image}
-              />
+              <Image source={{uri: mainImage}} style={style.image} />
               <View style={style.border} />
             </Button>
           </CardItem>

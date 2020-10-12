@@ -26,6 +26,7 @@ import {
 import WishList from '../screens/WishList';
 import Map from '../screens/Map';
 import Contact from '../screens/Contact';
+import TagsCategory from '../screens/TagsCategory';
 
 import Newsletter from '../screens/Newsletter';
 import Category from '../screens/Category';
@@ -69,7 +70,7 @@ const DrawerStack = createStackNavigator();
 function DrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
-      <MenuSide></MenuSide>
+      <MenuSide {...props} />
     </DrawerContentScrollView>
   );
 }
@@ -119,6 +120,11 @@ function HomeStackScreen() {
         options={{headerShown: false}}
       />
       <HomeStack.Screen
+        name="TagsCategory"
+        component={TagsCategory}
+        options={{headerShown: false}}
+      />
+      <HomeStack.Screen
         name="Product"
         component={Product}
         options={{headerShown: false}}
@@ -160,7 +166,9 @@ export default function App({navigation, route}) {
       <NavigationContainer ref={navigationRef}>
         <Drawer.Navigator
           backBehavior="initialRoute"
-          drawerContent={() => <DrawerContent />}>
+          drawerContent={(props) => (
+            <DrawerContent {...props} navigationProps={navigation} />
+          )}>
           <Drawer.Screen name="Home" component={HomeStackScreen} />
         </Drawer.Navigator>
       </NavigationContainer>

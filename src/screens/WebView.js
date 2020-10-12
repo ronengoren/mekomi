@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useRef} from 'react';
 import {
   Container,
   View,
@@ -10,7 +10,7 @@ import {
   Input,
   Spinner,
 } from 'native-base';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Linking, Share} from 'react-native';
 
 // Our custom files and classes import
 import Colors from '../Colors';
@@ -30,29 +30,52 @@ class WebView extends Component {
       url: '',
     };
   }
+  goBack = () => {
+    this.refs[this.webView].goBack();
+  };
+  goForward = () => {
+    this.refs[this.webView].goForward();
+  };
+  onShare = async () => {
+    try {
+      const result = await Share.share({
+        message: 'Share RedThread Bags!',
+      });
 
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   render() {
     const {navigation} = this.props;
-    console.log(this.props.route.params);
     var left = (
       <Left style={{flex: 1}}>
         <Button onPress={() => this.props.navigation.pop()} transparent>
-          <Icon name="ios-arrow-back" />
+          <Icon name="ios-arrow-back" style={{color: 'white'}} />
         </Button>
       </Left>
     );
     var right = (
       <Right style={{flex: 1}}>
-        <Button
+        {/* <Button
           onPress={() => this.props.navigation.navigate('Search')}
           transparent>
-          <Icon name="ios-star-outline" />
+          <Icon name="ios-star-outline" style={{color: 'white'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
           transparent>
-          <Icon name="ios-heart-outline" />
-        </Button>
+          <Icon name="ios-heart-outline" style={{color: 'white'}} />
+        </Button> */}
       </Right>
     );
     return (
@@ -71,17 +94,27 @@ class WebView extends Component {
         />
 
         <View style={styles.footer}>
-          <Button onPress={() => this.props.navigation.pop()} dark transparent>
-            <Icon name="arrow-back-circle" fontSize={50} />
+          <Button onPress={() => this.webView.goBack()} transparent>
+            <Icon
+              name="arrow-back-circle"
+              fontSize={50}
+              style={styles.iconButton}
+            />
           </Button>
-          <Button onPress={() => this.props.navigation.pop()} dark transparent>
-            <Icon name="arrow-forward-circle" fontSize={50} />
+          <Button onPress={() => this.webView.goForward()} transparent>
+            <Icon
+              name="arrow-forward-circle"
+              fontSize={50}
+              style={styles.iconButton}
+            />
           </Button>
-          <Button onPress={() => this.props.navigation.pop()} dark transparent>
-            <Icon name="share-social" fontSize={50} />
+          <Button onPress={this.onShare} transparent>
+            <Icon name="share-social" fontSize={50} style={styles.iconButton} />
           </Button>
-          <Button onPress={() => this.props.navigation.pop()} dark transparent>
-            <Icon name="globe" fontSize={50} />
+          <Button
+            onPress={() => Linking.openURL('https://www.guymizrachy.com/shop')}
+            transparent>
+            <Icon name="globe" fontSize={50} style={styles.iconButton} />
           </Button>
         </View>
       </Container>
@@ -137,10 +170,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 45,
     paddingHorizontal: 35,
-    paddingVertical: 10,
-    backgroundColor: 'grey',
+    paddingVertical: 5,
+    backgroundColor: 'black',
   },
   progressBar: {
     height: 2,
+  },
+  iconButton: {
+    color: 'white',
   },
 });

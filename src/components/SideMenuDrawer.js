@@ -6,19 +6,12 @@ import {Keyboard, View, Text} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
-
+import MenuSide from './MenuSide';
 const Drawer = createDrawerNavigator();
 
 class SideMenuDrawer extends Component {
   render() {
-    return (
-      <View>
-        <Text>SideMenuDrawer</Text>
-      </View>
-      // <Drawer.Navigator>
-      //   <Drawer.Screen name="SideMenu" component={SideMenu} />
-      // </Drawer.Navigator>
-    );
+    return <MenuSide {...props}></MenuSide>;
   }
 }
 

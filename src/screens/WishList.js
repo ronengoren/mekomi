@@ -47,7 +47,11 @@ class WishList extends Component {
     var left = (
       <Left style={{flex: 1}}>
         <Button transparent onPress={() => this.props.navigation.pop()}>
-          <Icon name="ios-close" size={38} style={{fontSize: 38}} />
+          <Icon
+            name="ios-close"
+            size={38}
+            style={{fontSize: 38, color: 'white'}}
+          />
         </Button>
       </Left>
     );
@@ -73,7 +77,6 @@ class WishList extends Component {
 
   renderItems() {
     let items = [];
-    console.log(items);
     this.state.items.map((item, i) => {
       items.push(
         <ListItem

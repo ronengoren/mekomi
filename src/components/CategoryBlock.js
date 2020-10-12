@@ -32,7 +32,6 @@ class CategoryBlock extends Component {
 
   _onPress() {
     const {navigation} = this.props;
-    console.log(this.props.title);
     this.props.navigation.navigate('Category', {
       id: this.props.id,
       title: this.props.title,

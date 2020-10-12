@@ -75,7 +75,7 @@ class Search extends Component {
     var left = (
       <Left style={{flex: 1}}>
         <Button onPress={() => navigation.pop()} dark transparent>
-          <Icon name="ios-arrow-back" />
+          <Icon name="ios-arrow-back" style={{color: 'white'}} />
         </Button>
       </Left>
     );

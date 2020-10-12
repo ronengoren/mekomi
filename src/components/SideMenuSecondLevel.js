@@ -10,7 +10,6 @@ import Text from './Text';
 class SideMenuSecondLevel extends Component {
   render() {
     const {navigation} = this.props;
-
     return (
       <View>
         <View style={styles.header}>
@@ -21,7 +20,7 @@ class SideMenuSecondLevel extends Component {
           />
           <View style={{flex: 1, alignItems: 'center'}}>
             <Text style={{textAlign: 'center', fontSize: 20}}>
-              {this.props.title}
+              {this.props.tags}
             </Text>
           </View>
         </View>
@@ -33,25 +32,9 @@ class SideMenuSecondLevel extends Component {
   }
 
   renderMenuItems() {
+    const {navigation} = this.props;
     let items = [];
-    this.props.menu.map((item, i) => {
-      items.push(
-        <ListItem
-          last={this.props.menu.length === i + 1}
-          icon
-          key={item.id}
-          button={true}
-          onPress={() => this.itemClicked(item)}>
-          <Body>
-            <Text>{item.title}</Text>
-          </Body>
-          <Right>
-            <Icon name="ios-arrow-forward" />
-          </Right>
-        </ListItem>,
-      );
-    });
-    return items;
+    for (let i = 0; i < this.props.title.length; i++) {}
   }
 
   itemClicked(item) {

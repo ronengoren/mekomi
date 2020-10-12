@@ -11,7 +11,7 @@ class Navbar extends Component {
         style={{backgroundColor: Colors.navbarBackgroundColor}}
         backgroundColor={Colors.navbarBackgroundColor}
         androidStatusBarColor={Colors.statusBarColor}
-        noShadow={true}>
+        noShadow={false}>
         {this.props.left ? this.props.left : <Left style={{flex: 1}} />}
         <Body style={styles.body}>
           <Title style={styles.title}>{this.props.title}</Title>
@@ -30,10 +30,11 @@ const styles = {
   },
   title: {
     fontFamily: 'System',
-    fontWeight: '100',
+    fontWeight: '300',
     fontSize: 18,
     justifyContent: 'center',
     flexWrap: 'wrap',
+    color: 'white',
   },
 };
 

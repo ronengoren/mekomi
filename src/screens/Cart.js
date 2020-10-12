@@ -52,8 +52,6 @@ class Cart extends Component {
         thisthis.setState({etsyApiData: response.data.results});
         // thisthis.apiCall(response);
         // handle success
-
-        console.log(thisthis.state.etsyApiData.Images);
       })
       .catch(function (error) {
         // handle error
