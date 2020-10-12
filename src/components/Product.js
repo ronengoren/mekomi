@@ -10,7 +10,7 @@ import {useNavigation} from '@react-navigation/native';
 class Product extends Component {
   render() {
     const {navigation} = this.props;
-
+    // console.log(this);
     return (
       <Col style={this.props.isRight ? style.leftMargin : style.rightMargin}>
         <Card transparent>

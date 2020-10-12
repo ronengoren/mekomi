@@ -34,6 +34,8 @@ import ImageGallery from '../screens/ImageGallery';
 import Login from '../screens/Login';
 import Signup from '../screens/Signup';
 import Checkout from '../screens/Checkout';
+import WebView from '../screens/WebView';
+
 // import HomeScreen from '../screens/HomeScreen';
 // import SettingsScreen from '../screens/SettingsScreen';
 // import MessagesScreen from '../screens/MessagesScreen';
@@ -139,6 +141,11 @@ function HomeStackScreen() {
       <HomeStack.Screen
         name="Checkout"
         component={Checkout}
+        options={{headerShown: false}}
+      />
+      <HomeStack.Screen
+        name="WebView"
+        component={WebView}
         options={{headerShown: false}}
       />
     </HomeStack.Navigator>

@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
-import {Image, Dimensions, TouchableWithoutFeedback} from 'react-native';
+
+import {
+  LogBox,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {
   View,
   Container,
@@ -18,12 +24,19 @@ import {
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
-
+import axios from 'axios';
+import {ETSY_API_KEY} from '@env';
 // Our custom files and classes import
 import Colors from '../Colors';
 import Text from '../components/Text';
 import Navbar from '../components/Navbar';
 import {default as ProductComponent} from '../components/Product';
+import {WebView} from 'react-native-webview';
+
+const apiUrl = 'https://openapi.etsy.com/v2/listings/';
+const inventoryListing = '/inventory?api_key=';
+const filterApi =
+  '&includes=Attributes&fields=values,title,url,price,currency_code,description,tags,has_variations';
 
 class Product extends Component {
   constructor(props) {
@@ -34,6 +47,10 @@ class Product extends Component {
       quantity: 1,
       selectedColor: '',
       selectedSize: '',
+      carouselImages: {},
+      listing: '',
+      colorOption: [],
+      inventory: {},
     };
   }
 
@@ -43,23 +60,74 @@ class Product extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props');
+    // console.log(this.props.route.params.product);
 
-    console.log(this.props.route.params.product);
+    var images = this.props.route.params.product.Images;
+
+    let data = [];
+    for (var i = 0; i < images.length; i++) {
+      data.push(images[i].url_fullxfull);
+      this.setState({
+        carouselImages: data,
+      });
+      // console.log(data);
+    }
     console.log('this.props');
-    /* Select the default color and size (first ones) */
-    // let defColor = this.state.product.colors[0];
-    // let defSize = this.state.product.sizes[0];
-    // this.setState({
-    //   selectedColor: defColor,
-    //   selectedSize: defSize,
-    // });
   }
 
+  renderColors() {
+    this;
+    let colors = [];
+    let products = this.state.product;
+    // console.log(this.props.route.params.product);
+    axios
+      .get(
+        'https://openapi.etsy.com/v2/listings/' +
+          this.props.route.params.product.listing_id +
+          '/inventory?api_key=' +
+          ETSY_API_KEY +
+          '&includes=Attributes&fields=values,title,url,price,currency_code,description,tags,has_variations',
+      )
+      .then(function (response) {
+        // this.setState({inventory: response.data.results});
+        response.data.results.products.map((tierOne, i) => {
+          // console.log(tierOne);
+          // console.log(JSON.stringify(tierOne.product_id));
+
+          colors.push(<Picker label={tierOne.product_id} value={i} />);
+        });
+      })
+      .catch(function (error) {
+        console.log(error);
+      })
+      .then(function () {});
+    // products.products.map((y) => {
+    //   console.log(y);
+    // });
+    // this.state.product.products.map((tierOne) => {
+    //   // console.log('product_id: ' + tierOne.product_id);
+    //   // colors.concat(tierOne.product_id);
+    //   tierOne.property_values.map((tierTwo, i) => {
+    //     colors.push(tierTwo.values[0]);
+    //     this.setState({colorOption: colors});
+    //     // <Picker.Item label="Wallet" value="key0" />;
+    //     // console.log(tierTwo.property_name, tierTwo.values);
+    //     // colors.push(
+    //     //   <Picker.Item
+    //     //     key={i}
+    //     //     label={tierTwo.property_name}
+    //     //     value={tierTwo.property_name}
+    //     //   />,
+    //     // );
+    console.log(colors);
+    //   });
+    // });
+    return colors;
+  }
   render() {
     const {navigation} = this.props;
     const {route} = this.props;
-    // console.log(route.params.product.title);
+    // console.log(this.state.carouselImages);
     var left = (
       <Left style={{flex: 1}}>
         <Button onPress={() => this.props.navigation.pop()} dark transparent>
@@ -73,13 +141,13 @@ class Product extends Component {
           onPress={() => this.props.navigation.navigate('Search')}
           dark
           transparent>
-          <Icon name="ios-search" />
+          <Icon name="ios-star-outline" />
         </Button>
         <Button
-          onPress={() => this.props.navigation.navigate('Cart')}
+          onPress={() => this.props.navigation.navigate('WishList')}
           dark
           transparent>
-          <Icon name="ios-cart" />
+          <Icon name="ios-heart-outline" />
         </Button>
       </Right>
     );
@@ -87,19 +155,19 @@ class Product extends Component {
       <Container style={{backgroundColor: '#fdfdfd'}}>
         <Navbar left={left} right={right} title={route.params.product.title} />
         <Content>
-          {/* <Carousel
-            data={this.state.product.images}
+          <Carousel
+            data={this.state.carouselImages}
             renderItem={this._renderItem}
-            ref={(carousel) => {
-              this._carousel = carousel;
-            }}
+            // ref={(carousel) => {
+            //   this._carousel = carousel;
+            // }}
             sliderWidth={Dimensions.get('window').width}
             itemWidth={Dimensions.get('window').width}
             onSnapToItem={(index) => this.setState({activeSlide: index})}
             enableSnap={true}
           />
           <Pagination
-            dotsLength={this.state.product.images.length}
+            dotsLength={this.state.carouselImages.length}
             activeDotIndex={this.state.activeSlide}
             containerStyle={{
               backgroundColor: 'transparent',
@@ -116,7 +184,7 @@ class Product extends Component {
             }}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
-          /> */}
+          />
           <View
             style={{
               backgroundColor: '#fdfdfd',
@@ -128,15 +196,15 @@ class Product extends Component {
             }}>
             <Grid>
               <Col size={3}>
-                <Text style={{fontSize: 18}}>{this.state.product.title}</Text>
+                <Text style={{fontSize: 18}}>{route.params.product.title}</Text>
               </Col>
               <Col>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>
-                  {this.state.product.price}
+                  ${route.params.product.price}
                 </Text>
               </Col>
             </Grid>
-            <Grid style={{marginTop: 15}}>
+            {/* <Grid style={{marginTop: 15}}>
               <Col>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Color:</Text>
@@ -151,11 +219,11 @@ class Product extends Component {
                   onValueChange={(color) =>
                     this.setState({selectedColor: color})
                   }>
-                  {/* {this.renderColors()} */}
+                  {this.renderColors()}
                 </Picker>
               </Col>
-            </Grid>
-            <Grid>
+            </Grid> */}
+            {/* <Grid>
               <Col>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Size:</Text>
@@ -168,11 +236,11 @@ class Product extends Component {
                   note={true}
                   selectedValue={this.state.selectedSize}
                   onValueChange={(size) => this.setState({selectedSize: size})}>
-                  {/* {this.renderSize()} */}
+                  {this.renderSize()}
                 </Picker>
               </Col>
-            </Grid>
-            <Grid>
+            </Grid> */}
+            {/* <Grid>
               <Col>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                   <Text>Quantity:</Text>
@@ -219,16 +287,13 @@ class Product extends Component {
                   </Button>
                 </View>
               </Col>
-            </Grid>
-            <Grid style={{marginTop: 15}}>
+            </Grid> */}
+            <Grid style={{margin: 15}}>
               <Col size={3}>
                 <Button
-                  block
                   onPress={this.addToCart.bind(this)}
-                  style={{backgroundColor: Colors.navbarBackgroundColor}}>
-                  <Text style={{color: '#fdfdfd', marginLeft: 5}}>
-                    Add to cart
-                  </Text>
+                  style={{backgroundColor: Colors.buttonBackground}}>
+                  <Text style={{color: '#fdfdfd', margin: 5}}>Buy Now</Text>
                 </Button>
               </Col>
               <Col>
@@ -239,8 +304,8 @@ class Product extends Component {
                   transparent
                   style={{backgroundColor: '#fdfdfd'}}>
                   <Icon
-                    style={{color: Colors.navbarBackgroundColor}}
-                    name="ios-heart"
+                    style={{color: Colors.buttonBackground}}
+                    name="ios-heart-outline"
                   />
                 </Button>
               </Col>
@@ -263,7 +328,7 @@ class Product extends Component {
                   marginBottom: 10,
                 }}
               />
-              <NBText note>{this.state.product.description}</NBText>
+              <NBText note>{route.params.product.description}</NBText>
             </View>
           </View>
           <View style={{marginTop: 15, paddingLeft: 12, paddingRight: 12}}>
@@ -296,14 +361,6 @@ class Product extends Component {
       </TouchableWithoutFeedback>
     );
   };
-
-  renderColors() {
-    // let colors = [];
-    // this.state.product.colors.map((color, i) => {
-    //   colors.push(<Item key={i} label={color} value={color} />);
-    // });
-    // return colors;
-  }
 
   renderSize() {
     // let size = [];
@@ -342,37 +399,45 @@ class Product extends Component {
 
   openGallery = (pos) => {
     const {navigation} = this.props;
-
+    // console.log(this.state.carouselImages);
     this.props.navigation.navigate('ImageGallery', {
-      images: this.state.product.images,
+      images: this.state.carouselImages,
       position: pos,
     });
   };
 
   addToCart() {
-    var product = this.state.product;
-    product['color'] = this.state.selectedColor;
-    product['size'] = this.state.selectedSize;
-    product['quantity'] = this.state.quantity;
-    AsyncStorage.getItem('CART', (err, res) => {
-      if (!res) AsyncStorage.setItem('CART', JSON.stringify([product]));
-      else {
-        var items = JSON.parse(res);
-        items.push(product);
-        AsyncStorage.setItem('CART', JSON.stringify(items));
-      }
-      Toast.show({
-        text: 'Product added to your cart !',
-        position: 'bottom',
-        type: 'success',
-        buttonText: 'Dismiss',
-        duration: 3000,
-      });
+    const {navigation} = this.props;
+    const url = this.props.route.params.product.url;
+    // console.log(url);
+    this.props.navigation.navigate('WebView', {
+      url: url,
     });
+    // var product = this.state.product;
+    // product['color'] = this.state.selectedColor;
+    // product['size'] = this.state.selectedSize;
+    // product['quantity'] = this.state.quantity;
+    // AsyncStorage.getItem('CART', (err, res) => {
+    //   if (!res) AsyncStorage.setItem('CART', JSON.stringify([product]));
+    //   else {
+    //     var items = JSON.parse(res);
+    //     items.push(product);
+    //     AsyncStorage.setItem('CART', JSON.stringify(items));
+    //   }
+    //   Toast.show({
+    //     text: 'Product added to your cart !',
+    //     position: 'bottom',
+    //     type: 'success',
+    //     buttonText: 'Dismiss',
+    //     duration: 3000,
+    //   });
+    // });
   }
 
   addToWishlist() {
-    var product = this.state.product;
+    const product = this.props.route.params.product;
+
+    // var product = this.state.product;
     var success = true;
     AsyncStorage.getItem('WISHLIST', (err, res) => {
       if (!res) AsyncStorage.setItem('WISHLIST', JSON.stringify([product]));
@@ -412,47 +477,6 @@ class Product extends Component {
   }
 }
 
-const dummyProduct = {
-  id: 2,
-  title: 'V NECK T-SHIRT',
-  description:
-    'Pellentesque orci lectus, bibendum iaculis aliquet id, ullamcorper nec ipsum. In laoreet ligula vitae tristique viverra. Suspendisse augue nunc, laoreet in arcu ut, vulputate malesuada justo. Donec porttitor elit justo, sed lobortis nulla interdum et. Sed lobortis sapien ut augue condimentum, eget ullamcorper nibh lobortis. Cras ut bibendum libero. Quisque in nisl nisl. Mauris vestibulum leo nec pellentesque sollicitudin. Pellentesque lacus eros, venenatis in iaculis nec, luctus at eros. Phasellus id gravida magna. Maecenas fringilla auctor diam consectetur placerat. Suspendisse non convallis ligula. Aenean sagittis eu erat quis efficitur. Maecenas volutpat erat ac varius bibendum. Ut tincidunt, sem id tristique commodo, nunc diam suscipit lectus, vel',
-  image:
-    'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,w_358,x_150/v1500465309/pexels-photo-206470_nwtgor.jpg',
-  images: [
-    'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,w_358,x_150/v1500465309/pexels-photo-206470_nwtgor.jpg',
-    'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,x_226,y_54/v1500465309/pexels-photo-521197_hg8kak.jpg',
-    'http://res.cloudinary.com/atf19/image/upload/c_crop,g_face,h_250,x_248/v1500465308/fashion-men-s-individuality-black-and-white-157675_wnctss.jpg',
-    'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250/v1500465308/pexels-photo-179909_ddlsmt.jpg',
-  ],
-  price: '120$',
-  colors: ['Red', 'Blue', 'Black'],
-  sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-  category: 'MAN',
-  similarItems: [
-    {
-      id: 10,
-      title: 'V NECK T-SHIRT',
-      price: '29$',
-      image:
-        'http://res.cloudinary.com/atf19/image/upload/c_crop,g_face,h_250,x_248/v1500465308/fashion-men-s-individuality-black-and-white-157675_wnctss.jpg',
-    },
-    {
-      id: 11,
-      title: 'V NECK T-SHIRT',
-      price: '29$',
-      image:
-        'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250/v1500465308/pexels-photo-179909_ddlsmt.jpg',
-    },
-    {
-      id: 12,
-      title: 'V NECK T-SHIRT',
-      price: '29$',
-      image:
-        'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250/v1500465308/pexels-photo-179909_ddlsmt.jpg',
-    },
-  ],
-};
 export default function (props) {
   const navigation = useNavigation();
 

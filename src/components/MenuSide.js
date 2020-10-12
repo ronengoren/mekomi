@@ -23,6 +23,7 @@ import {
 } from 'native-base';
 import SideMenuSecondLevel from './SideMenuSecondLevel';
 import * as RootNavigation from '../routes/appRouter';
+import {WebView} from 'react-native-webview';
 
 var menuItems = [
   {
@@ -171,7 +172,7 @@ class MenuSide extends Component {
     if (!this.state.subMenu) {
       return (
         <View>
-          <View style={{paddingLeft: 15, paddingRight: 15}}>
+          {/* <View style={{paddingLeft: 15, paddingRight: 15}}>
             <Item error={this.state.searchError}>
               <Input
                 placeholder="Search..."
@@ -182,11 +183,11 @@ class MenuSide extends Component {
               />
               <Icon
                 active
-                name="ios-search-outline"
+                name="ios-star-outline"
                 onPress={() => this.search()}
               />
             </Item>
-          </View>
+          </View> */}
           <View style={{paddingRight: 15}}>
             <List>
               <ListItem
@@ -213,9 +214,9 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="logo-facebook"
                   onPress={() =>
-                    Linking.openURL('http://www.facebook.com/').catch((err) =>
-                      console.error('An error occurred', err),
-                    )
+                    Linking.openURL(
+                      'https://www.facebook.com/MekomiUS',
+                    ).catch((err) => console.error('An error occurred', err))
                   }
                 />
               </Col>
@@ -224,42 +225,42 @@ class MenuSide extends Component {
                   style={{fontSize: 18}}
                   name="logo-instagram"
                   onPress={() =>
-                    Linking.openURL('http://www.instagram.com/').catch((err) =>
-                      console.error('An error occurred', err),
-                    )
+                    Linking.openURL(
+                      'https://www.instagram.com/mekomi_urbanstoryline/',
+                    ).catch((err) => console.error('An error occurred', err))
                   }
                 />
               </Col>
               <Col style={{alignItems: 'center'}}>
                 <Icon
                   style={{fontSize: 18}}
-                  name="logo-twitter"
+                  name="ios-globe"
                   onPress={() =>
-                    Linking.openURL('http://www.twitter.com/').catch((err) =>
-                      console.error('An error occurred', err),
-                    )
+                    Linking.openURL(
+                      'https://www.guymizrachy.com',
+                    ).catch((err) => console.error('An error occurred', err))
                   }
                 />
               </Col>
               <Col style={{alignItems: 'center'}}>
                 <Icon
                   style={{fontSize: 18}}
-                  name="logo-youtube"
+                  name="ios-musical-notes"
                   onPress={() =>
-                    Linking.openURL('http://www.youtube.com/').catch((err) =>
-                      console.error('An error occurred', err),
-                    )
+                    Linking.openURL(
+                      'https://open.spotify.com/user/12165756219?si=3L-MVePtSTq5E4ztj45KZQ',
+                    ).catch((err) => console.error('An error occurred', err))
                   }
                 />
               </Col>
               <Col style={{alignItems: 'center'}}>
                 <Icon
                   style={{fontSize: 18}}
-                  name="logo-snapchat"
+                  name="md-logo-pinterest"
                   onPress={() =>
-                    Linking.openURL('http://www.snapchat.com/').catch((err) =>
-                      console.error('An error occurred', err),
-                    )
+                    Linking.openURL(
+                      'https://www.pinterest.com/guymiz/_saved/',
+                    ).catch((err) => console.error('An error occurred', err))
                   }
                 />
               </Col>

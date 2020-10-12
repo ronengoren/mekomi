@@ -44,12 +44,12 @@ class Login extends Component {
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
           transparent>
-          <Icon name="ios-search-outline" />
+          <Icon name="ios-star-outline" />
         </Button>
         <Button
-          onPress={() => this.props.navigation.navigate('Cart')}
+          onPress={() => this.props.navigation.navigate('WishList')}
           transparent>
-          <Icon name="ios-cart" />
+          <Icon name="ios-heart-outline" />
         </Button>
       </Right>
     );

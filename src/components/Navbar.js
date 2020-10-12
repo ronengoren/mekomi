@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Header, Body, Title, Left, Right, Icon} from 'native-base';
-import {useNavigation} from '@react-navigation/native';
 
 // Our custom files and classes import
 import Colors from '../Colors';
@@ -32,12 +31,10 @@ const styles = {
   title: {
     fontFamily: 'System',
     fontWeight: '100',
-    fontSize: 25,
+    fontSize: 18,
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
 };
 
-export default function (props) {
-  const navigation = useNavigation();
-
-  return <Navbar {...props} navigation={navigation} />;
-}
+export default Navbar;

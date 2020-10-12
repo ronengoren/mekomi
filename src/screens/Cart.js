@@ -28,7 +28,13 @@ import {
   StackActions,
   useNavigation,
 } from '@react-navigation/native';
+import axios from 'axios';
+import {ETSY_API_KEY} from '@env';
 
+const apiUrl =
+  'https://openapi.etsy.com/v2/guests/dnwmb0z1log9d/carts?api_key=';
+const filterApi =
+  '&fields=title,url,price,currency_code,tags&limit=100&includes=MainImage,Images';
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +43,26 @@ class Cart extends Component {
     };
   }
 
+  fetchApi() {
+    var thisthis = this;
+
+    axios
+      .get(apiUrl + ETSY_API_KEY + filterApi)
+      .then(function (response) {
+        thisthis.setState({etsyApiData: response.data.results});
+        // thisthis.apiCall(response);
+        // handle success
+
+        console.log(thisthis.state.etsyApiData.Images);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      .then(function () {
+        // always executed
+      });
+  }
   UNSAFE_componentWillMount() {
     AsyncStorage.getItem('CART', (err, res) => {
       if (!res) this.setState({cartItems: []});
@@ -209,42 +235,6 @@ const styles = {
     fontWeight: '100',
   },
 };
-
-const items = [
-  {
-    id: 1,
-    quantity: 1,
-    title: 'Black Hat',
-    categoryId: 5,
-    categoryTitle: 'PRINTS',
-    price: '22$',
-    image:
-      'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,w_358,x_150/v1500465309/pexels-photo-206470_nwtgor.jpg',
-    description: "Hello there, i'm a cool product with a heart of gold.",
-  },
-  {
-    id: 2,
-    quantity: 3,
-    title: 'V Neck T-Shirt',
-    categoryId: 2,
-    categoryTitle: 'CLOTHING',
-    price: '12$',
-    image:
-      'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,x_226,y_54/v1500465309/pexels-photo-521197_hg8kak.jpg',
-    description: "Hello there, i'm a cool product with a heart of gold.",
-  },
-  {
-    id: 10,
-    quantity: 1,
-    title: 'Black Leather Hat',
-    categoryId: 1,
-    categoryTitle: 'BAGS',
-    price: '2$',
-    image:
-      'http://res.cloudinary.com/atf19/image/upload/c_crop,g_face,h_250,x_248/v1500465308/fashion-men-s-individuality-black-and-white-157675_wnctss.jpg',
-    description: "Hello there, i'm a cool product with a heart of gold.",
-  },
-];
 
 export default function (props) {
   const navigation = useNavigation();

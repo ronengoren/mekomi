@@ -73,6 +73,7 @@ class WishList extends Component {
 
   renderItems() {
     let items = [];
+    console.log(items);
     this.state.items.map((item, i) => {
       items.push(
         <ListItem
@@ -82,12 +83,12 @@ class WishList extends Component {
           <Thumbnail
             square
             style={{width: 110, height: 90}}
-            source={{uri: item.image}}
+            source={{uri: item.MainImage.url_fullxfull}}
           />
           <Body style={{paddingLeft: 10}}>
             <Text style={{fontSize: 18}}>{item.title}</Text>
             <Text style={{fontSize: 16, fontWeight: 'bold', marginBottom: 10}}>
-              {item.price}
+              ${item.price}
             </Text>
             <Text style={{fontSize: 14, fontStyle: 'italic'}}>
               {item.category}

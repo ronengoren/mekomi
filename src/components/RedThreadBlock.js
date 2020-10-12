@@ -6,14 +6,18 @@ import {useNavigation} from '@react-navigation/native';
 // Our custom files and classes import
 import Text from './Text';
 
-class CategoryBlock extends Component {
+class RedThreadBlock extends Component {
   render() {
     const {navigation} = this.props;
     return (
       <View style={{flex: 1}}>
         <TouchableOpacity
           onPress={() => {
-            this._onPress();
+            /* 1. Navigate to the Details route with params */
+            // console.log(this.props.title);
+            this.props.navigation.navigate('WebView', {
+              url: 'https://www.guymizrachy.com/shop',
+            });
           }}
           activeOpacity={0.9}>
           <View>
@@ -32,7 +36,6 @@ class CategoryBlock extends Component {
 
   _onPress() {
     const {navigation} = this.props;
-    console.log(this.props.title);
     this.props.navigation.navigate('Category', {
       id: this.props.id,
       title: this.props.title,
@@ -87,5 +90,5 @@ const styles = {
 export default function (props) {
   const navigation = useNavigation();
 
-  return <CategoryBlock {...props} navigation={navigation} />;
+  return <RedThreadBlock {...props} navigation={navigation} />;
 }

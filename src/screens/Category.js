@@ -24,11 +24,10 @@ import {
 import axios from 'axios';
 import {ETSY_API_KEY} from '@env';
 
-console.log(ETSY_API_KEY);
 const apiUrl =
   'https://openapi.etsy.com/v2/shops/21891901/listings/active/?api_key=';
 const filterApi =
-  '&fields=title,url,price,currency_code,description,tags&limit=100&includes=MainImage,Images';
+  '&fields=listing_id,tags,price,title,description&limit=100&includes=MainImage,Images,Section';
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -52,8 +51,10 @@ class Category extends Component {
         thisthis.setState({etsyApiData: response.data.results});
         // thisthis.apiCall(response);
         // handle success
+        // console.log('etsyApiData');
 
-        // console.log(thisthis.state.etsyApiData);
+        // console.log(thisthis.state.etsyApiData[3]);
+        // console.log('etsyApiData');
       })
       .catch(function (error) {
         // handle error
@@ -64,139 +65,9 @@ class Category extends Component {
       });
   }
 
-  UNSAFE_componentWillMount() {
-    var products = [
-      {
-        id: 1,
-        title: 'Black Hat',
-        categoryId: 5,
-        categoryTitle: 'PRINTS',
-        price: '$22',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,w_358,x_150/v1500465309/pexels-photo-206470_nwtgor.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 2,
-        title: 'V Neck T-Shirt',
-        categoryId: 2,
-        categoryTitle: 'CLOTHING',
-        price: '$12',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,x_226,y_54/v1500465309/pexels-photo-521197_hg8kak.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 10,
-        title: 'Black Leather Hat',
-        categoryId: 1,
-        categoryTitle: 'BAGS',
-        price: '$2',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,g_face,h_250,x_248/v1500465308/fashion-men-s-individuality-black-and-white-157675_wnctss.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 15,
-        title: 'Long Sleeves T-Shirt',
-        categoryId: 5,
-        categoryTitle: 'PRINTS',
-        price: '$120',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250,x_100,y_50/v1500465308/pexels-photo-500034_uvxwcq.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 11,
-        title: 'Pink Diamond Watch',
-        categoryId: 5,
-        categoryTitle: 'PRINTS',
-        price: '$22',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,h_250/v1500465308/pexels-photo-179909_ddlsmt.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 22,
-        title: 'Golden Tie',
-        categoryId: 2,
-        categoryTitle: 'CLOTHING',
-        price: '$12',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_scale,w_300/v1500284127/pexels-photo-497848_yenhuf.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 100,
-        title: 'Black Pearl Earrings',
-        categoryId: 1,
-        categoryTitle: 'BAGS',
-        price: '$2',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,g_center,h_250/v1500465307/pexels-photo-262226_kbjbl3.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 215,
-        title: 'Grey Blazer',
-        categoryId: 5,
-        categoryTitle: 'PRINTS',
-        price: '$120',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_scale,w_300/v1500284127/pexels-photo-497848_yenhuf.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 12,
-        title: 'Mirror Sunglasses',
-        categoryId: 5,
-        categoryTitle: 'PRINTS',
-        price: '$22',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_crop,g_face,h_250/v1500465307/pexels-photo-488541_s0si3h.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 29,
-        title: 'White Shirt',
-        categoryId: 2,
-        categoryTitle: 'CLOTHING',
-        price: '$12',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_scale,w_300/v1500284127/pexels-photo-497848_yenhuf.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-      {
-        id: 16,
-        title: 'Tie',
-        categoryId: 1,
-        categoryTitle: 'BAGS',
-        price: '$2',
-        image:
-          'http://res.cloudinary.com/atf19/image/upload/c_scale,w_300/v1500284127/pexels-photo-497848_yenhuf.jpg',
-        description: "Hello there, i'm a cool product with a heart of gold.",
-      },
-    ];
-    let category = this.props.route.params.title;
-    let data = [];
-    // console.log(category);
-    // console.log(products);
-
-    // console.log(data);
-
-    data = products.filter(function (item) {
-      return item.categoryTitle == category;
-    });
-
-    // console.log(data);
-
-    this.setState({items: data});
-    this.setState({data: products});
-  }
-
   render() {
     const {navigation} = this.props;
-
+    // console.log(this.props.route);
     var left = (
       <Left style={{flex: 1}}>
         <Button
@@ -215,13 +86,13 @@ class Category extends Component {
           onPress={() => this.props.navigation.navigate('Search')}
           dark
           transparent>
-          <Icon name="ios-search-outline" />
+          <Icon name="ios-star-outline" />
         </Button>
         <Button
-          onPress={() => this.props.navigation.navigate('Cart')}
+          onPress={() => this.props.navigation.navigate('WishList')}
           dark
           transparent>
-          <Icon name="ios-cart" />
+          <Icon name="ios-heart-outline" />
         </Button>
       </Right>
     );
@@ -241,28 +112,36 @@ class Category extends Component {
   renderProducts() {
     let items = [];
     // let stateItems = this.state.items;
+    let category = this.props.route.params.title.toLocaleLowerCase();
     let stateItems = this.state.etsyApiData;
-    // console.log(apiProducts);
-
     for (var i = 0; i < stateItems.length; i++) {
-      if (stateItems[i]) {
+      if (stateItems[i].tags.includes(category)) {
         items.push(
-          // console.log(stateItems[i]),
-
           <Grid key={i}>
-            <Product key={stateItems[i].id} product={stateItems[i]} />
+            <Product key={stateItems[i].listing_id} product={stateItems[i]} />
             {/* <Product key={stateItems[i].id} product={stateItems[i]} isRight /> */}
           </Grid>,
         );
-      } else {
-        items.push(
-          <Grid key={i}>
-            <Product key={stateItems[i].id} product={stateItems[i]} />
-            <Col key={i + 1} />
-          </Grid>,
-        );
       }
+
+      // if (stateItems[i]) {
+      //   items.push(
+      //     // console.log(stateItems[i]),
+      //     <Grid key={i}>
+      //       <Product key={stateItems[i].id} product={stateItems[i]} />
+      //       {/* <Product key={stateItems[i].id} product={stateItems[i]} isRight /> */}
+      //     </Grid>,
+      //   );
+      // } else {
+      //   items.push(
+      //     <Grid key={i}>
+      //       <Product key={stateItems[i].id} product={stateItems[i]} />
+      //       <Col key={i + 1} />
+      //     </Grid>,
+      //   );
+      // }
     }
+
     return items;
   }
 }

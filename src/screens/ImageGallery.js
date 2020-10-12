@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, Icon} from 'native-base';
 import Gallery from 'react-native-image-gallery';
+import {LogBox} from 'react-native';
 
 // Our custom files and classes import
 import Text from '../components/Text';
@@ -13,9 +14,14 @@ class ImageGallery extends Component {
     };
   }
 
+  componentDidMount() {
+    LogBox.ignoreLogs(['Animated: `useNativeDriver`']);
+  }
   UNSAFE_componentWillMount() {
+    const {navigation} = this.props;
+
     let imgs = [];
-    this.props.images.map((img) => {
+    this.props.route.params.images.map((img) => {
       imgs.push({source: {uri: img}});
     });
     this.setState({images: imgs});
@@ -24,10 +30,10 @@ class ImageGallery extends Component {
   render() {
     const {navigation} = this.props;
     return (
-      <View style={{flex: 1, backgroundColor: 'black'}}>
+      <View style={{flex: 1}}>
         <Gallery
           initialPage={this.props.position ? this.props.position : 0}
-          style={{flex: 1, backgroundColor: 'black'}}
+          style={{flex: 1, backgroundColor: 'rgba(52, 52, 52, 0.8)'}}
           images={this.state.images}
         />
         <Icon
