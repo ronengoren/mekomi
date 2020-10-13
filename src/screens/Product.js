@@ -56,7 +56,7 @@ class Product extends Component {
   }
 
   UNSAFE_componentWillMount() {
-    this.likeItOrNot();
+    this.likeItOrNot(this.props.route);
     //get the product with id of this.props.product.id from your server
     // this.setState({product: dummyProduct});
   }
@@ -80,14 +80,14 @@ class Product extends Component {
       // console.log(this.search(items, product));
 
       if (this.search(items, product)) {
-        console.log(this.search(items, product));
-        console.log('true');
+        // console.log(this.search(items, product));
+        // console.log('true');
 
         this.setState({likes: true});
       } else {
-        // this.setState({likes: false});
-        console.log(this.search(items, product));
-        console.log('false');
+        this.setState({likes: false});
+        // console.log(this.search(items, product));
+        // console.log('false');
       }
     });
   }
@@ -144,7 +144,7 @@ class Product extends Component {
   render() {
     const {navigation} = this.props;
     const {route} = this.props;
-    // console.log(this.state.carouselImages);
+    // console.log(this.props.route);
     var left = (
       <Left style={{flex: 1}}>
         <Button onPress={() => this.props.navigation.pop()} dark transparent>
@@ -454,9 +454,9 @@ class Product extends Component {
   }
 
   addToWishlist() {
-    this.setState({likes: true}, () => {
-      console.log(this.state.likes);
-    });
+    // this.setState({likes: true}, () => {
+    //   console.log(this.state.likes);
+    // });
     const product = this.props.route.params.product;
     // var product = this.state.product;
     var success = true;
