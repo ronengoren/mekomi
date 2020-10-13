@@ -80,8 +80,8 @@ const styles = {
   },
   image: {
     height: 200,
-    width: null,
-    flex: 1,
+    // width: null,
+    // flex: 1,
   },
 };
 

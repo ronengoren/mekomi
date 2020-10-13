@@ -5,6 +5,7 @@ import {
   ScrollView,
   StatusBar,
   Image,
+  Dimensions,
 } from 'react-native';
 import Text from '../components/Text';
 import Navbar from '../components/Navbar';
@@ -178,4 +179,9 @@ const redThreadCategories = [
   },
 ];
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 export default withNavigation(Home);
