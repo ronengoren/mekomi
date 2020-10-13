@@ -163,7 +163,7 @@ class MenuSide extends Component {
             <Grid>
               <Col style={{alignItems: 'center'}}>
                 <Icon
-                  style={{fontSize: 18}}
+                  style={{fontSize: 18, color: '#4267B2'}}
                   name="logo-facebook"
                   onPress={() =>
                     this.props.navigation.navigate('WebView', {
@@ -174,7 +174,7 @@ class MenuSide extends Component {
               </Col>
               <Col style={{alignItems: 'center'}}>
                 <Icon
-                  style={{fontSize: 18}}
+                  style={{fontSize: 18, color: '#405DE6'}}
                   name="logo-instagram"
                   onPress={() =>
                     this.props.navigation.navigate('WebView', {
@@ -196,7 +196,7 @@ class MenuSide extends Component {
               </Col>
               <Col style={{alignItems: 'center'}}>
                 <Icon
-                  style={{fontSize: 18}}
+                  style={{fontSize: 18, color: '#1DB954'}}
                   name="ios-musical-notes"
                   onPress={() =>
                     this.props.navigation.navigate('WebView', {
@@ -208,7 +208,7 @@ class MenuSide extends Component {
               </Col>
               <Col style={{alignItems: 'center'}}>
                 <Icon
-                  style={{fontSize: 18}}
+                  style={{fontSize: 18, color: '#BD081C'}}
                   name="md-logo-pinterest"
                   onPress={() =>
                     this.props.navigation.navigate('WebView', {
@@ -246,7 +246,7 @@ class MenuSide extends Component {
           button={true}
           onPress={() => this.itemClicked(mainDrawer[i])}>
           <Body>
-            <Text>{mainDrawer[i].title}</Text>
+            <Text style={styles.sideMenuText}>{mainDrawer[i].title}</Text>
           </Body>
           <Right>
             <Icon name="ios-arrow-forward" />
@@ -329,6 +329,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(189, 195, 199, 0.6)',
     marginTop: 10,
     marginBottom: 10,
+  },
+  sideMenuText: {
+    fontFamily: 'System',
+    fontWeight: '200',
   },
 });
 export default MenuSide;

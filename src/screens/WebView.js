@@ -88,7 +88,7 @@ class WebView extends Component {
             this.webView = node;
           }}
           source={{uri: this.props.route.params.url}}
-          renderLoading={() => <Spinner />}
+          renderLoading={() => <Spinner color="black" />}
           startInLoadingState
           //   onNavigationStateChange={this.handleNavStateChange}
         />

@@ -27,7 +27,7 @@ import {ETSY_API_KEY} from '@env';
 const apiUrl =
   'https://openapi.etsy.com/v2/shops/21891901/listings/active/?api_key=';
 const filterApi =
-  '&fields=listing_id,tags,price,title,description&limit=100&includes=Images,Section';
+  '&fields=listing_id,tags,price,title,description,url&limit=100&includes=Images,Section';
 class Category extends Component {
   constructor(props) {
     super(props);
@@ -77,12 +77,12 @@ class Category extends Component {
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
           transparent>
-          <Icon name="ios-star-outline" style={{color: 'white'}} />
+          <Icon name="ios-star-outline" style={{color: '#FFD700'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
           transparent>
-          <Icon name="ios-heart-outline" style={{color: 'white'}} />
+          <Icon name="ios-heart-outline" style={{color: 'red'}} />
         </Button>
       </Right>
     );

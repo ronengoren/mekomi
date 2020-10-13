@@ -35,7 +35,13 @@ class Product extends Component {
               transparent
               onPress={() => this.pressed()}>
               <Body>
-                <Text style={{fontSize: 16}} numberOfLines={1}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: 'System',
+                    fontWeight: '300',
+                  }}
+                  numberOfLines={1}>
                   {this.props.product.title}
                 </Text>
                 <View style={{flex: 1, width: '100%', alignItems: 'center'}}>
@@ -88,6 +94,8 @@ const style = {
     paddingRight: 5,
     zIndex: 1000,
     backgroundColor: '#fdfdfd',
+    fontFamily: 'System',
+    fontWeight: '300',
   },
   line: {
     width: '100%',

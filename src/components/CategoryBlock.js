@@ -51,6 +51,8 @@ const styles = {
     textAlign: 'center',
     color: '#fdfdfd',
     fontSize: 32,
+    fontFamily: 'System',
+    fontWeight: '200',
   },
   subtitle: {
     textAlign: 'center',

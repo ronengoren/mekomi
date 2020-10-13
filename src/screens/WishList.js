@@ -86,7 +86,7 @@ class WishList extends Component {
           <Thumbnail
             square
             style={{width: 110, height: 90}}
-            source={{uri: item.MainImage.url_fullxfull}}
+            source={{uri: item.Images[0].url_fullxfull}}
           />
           <Body style={{paddingLeft: 10}}>
             <Text style={{fontSize: 18}}>{item.title}</Text>

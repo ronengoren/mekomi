@@ -51,10 +51,12 @@ class Product extends Component {
       listing: '',
       colorOption: [],
       inventory: {},
+      likes: false,
     };
   }
 
   UNSAFE_componentWillMount() {
+    this.likeItOrNot();
     //get the product with id of this.props.product.id from your server
     // this.setState({product: dummyProduct});
   }
@@ -69,6 +71,25 @@ class Product extends Component {
         carouselImages: data,
       });
     }
+  }
+
+  likeItOrNot() {
+    var product = this.props.route.params.product;
+    AsyncStorage.getItem('WISHLIST', (err, res) => {
+      var items = JSON.parse(res);
+      // console.log(this.search(items, product));
+
+      if (this.search(items, product)) {
+        console.log(this.search(items, product));
+        console.log('true');
+
+        this.setState({likes: true});
+      } else {
+        // this.setState({likes: false});
+        console.log(this.search(items, product));
+        console.log('false');
+      }
+    });
   }
 
   // renderColors() {
@@ -136,12 +157,12 @@ class Product extends Component {
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
           transparent>
-          <Icon name="ios-star-outline" style={{color: 'white'}} />
+          <Icon name="ios-star-outline" style={{color: '#FFD700'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
           transparent>
-          <Icon name="ios-heart-outline" style={{color: 'white'}} />
+          <Icon name="ios-heart-outline" style={{color: 'red'}} />
         </Button>
       </Right>
     );
@@ -286,7 +307,7 @@ class Product extends Component {
               <Col size={3}>
                 <Button
                   onPress={this.addToCart.bind(this)}
-                  style={{backgroundColor: Colors.buttonBackground}}>
+                  style={{backgroundColor: Colors.navbarBackgroundColor}}>
                   <Text style={{color: '#fdfdfd', margin: 5}}>Buy Now</Text>
                 </Button>
               </Col>
@@ -297,10 +318,14 @@ class Product extends Component {
                   icon
                   transparent
                   style={{backgroundColor: '#fdfdfd'}}>
-                  <Icon
-                    style={{color: Colors.buttonBackground}}
-                    name="ios-heart-outline"
-                  />
+                  {this.state.likes == true ? (
+                    <Icon style={{color: 'red'}} name="ios-heart" />
+                  ) : (
+                    <Icon
+                      name="ios-heart-outline"
+                      style={{color: Colors.navbarBackgroundColor}}
+                    />
+                  )}
                 </Button>
               </Col>
             </Grid>
@@ -325,7 +350,7 @@ class Product extends Component {
               <NBText note>{route.params.product.description}</NBText>
             </View>
           </View>
-          <View style={{marginTop: 15, paddingLeft: 12, paddingRight: 12}}>
+          {/* <View style={{marginTop: 15, paddingLeft: 12, paddingRight: 12}}>
             <Text style={{marginBottom: 5}}>Similar items</Text>
             <View
               style={{
@@ -336,8 +361,8 @@ class Product extends Component {
                 marginBottom: 10,
               }}
             />
-            {/* {this.renderSimilairs()} */}
-          </View>
+            {this.renderSimilairs()}
+          </View> */}
         </Content>
       </Container>
     );
@@ -403,7 +428,7 @@ class Product extends Component {
   addToCart() {
     const {navigation} = this.props;
     const url = this.props.route.params.product.url;
-    // console.log(url);
+
     this.props.navigation.navigate('WebView', {
       url: url,
     });
@@ -429,8 +454,10 @@ class Product extends Component {
   }
 
   addToWishlist() {
+    this.setState({likes: true}, () => {
+      console.log(this.state.likes);
+    });
     const product = this.props.route.params.product;
-
     // var product = this.state.product;
     var success = true;
     AsyncStorage.getItem('WISHLIST', (err, res) => {
@@ -446,15 +473,16 @@ class Product extends Component {
       }
       if (success) {
         Toast.show({
-          text: 'Product added to your wishlist !',
+          text: 'Product added to your wishlist!',
           position: 'bottom',
           type: 'success',
           buttonText: 'Dismiss',
           duration: 3000,
         });
+        this.setState({likes: true});
       } else {
         Toast.show({
-          text: 'This product already exist in your wishlist !',
+          text: 'This product already exist in your wishlist!',
           position: 'bottom',
           type: 'danger',
           buttonText: 'Dismiss',

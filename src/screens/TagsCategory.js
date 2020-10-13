@@ -57,12 +57,12 @@ class TagsCategory extends Component {
         <Button
           onPress={() => this.props.navigation.navigate('Search')}
           transparent>
-          <Icon name="ios-star-outline" style={{color: 'white'}} />
+          <Icon name="ios-star-outline" style={{color: '#FFD700'}} />
         </Button>
         <Button
           onPress={() => this.props.navigation.navigate('WishList')}
           transparent>
-          <Icon name="ios-heart-outline" style={{color: 'white'}} />
+          <Icon name="ios-heart-outline" style={{color: 'red'}} />
         </Button>
       </Right>
     );
