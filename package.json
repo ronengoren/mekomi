@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/mekomi/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.12.0",
@@ -29,7 +30,6 @@
     "react-native-elements": "^2.3.2",
     "react-native-gesture-handler": "^1.8.0",
     "react-native-image-gallery": "^2.1.5",
-    "react-native-maps": "^0.27.1",
     "react-native-reanimated": "^1.13.0",
     "react-native-safe-area-context": "^3.1.7",
     "react-native-screens": "^2.10.1",

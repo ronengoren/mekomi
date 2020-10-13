@@ -24,7 +24,6 @@ import {
 } from 'native-base';
 
 import WishList from '../screens/WishList';
-import Map from '../screens/Map';
 import Contact from '../screens/Contact';
 import TagsCategory from '../screens/TagsCategory';
 
@@ -96,11 +95,6 @@ function HomeStackScreen() {
       <HomeStack.Screen
         name="WishList"
         component={WishList}
-        options={{headerShown: false}}
-      />
-      <HomeStack.Screen
-        name="Map"
-        component={Map}
         options={{headerShown: false}}
       />
       <HomeStack.Screen
